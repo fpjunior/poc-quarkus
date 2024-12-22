@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  quarkus-app:
+    build:
+      context: .
+      dockerfile: Dockerfile # Caminho para o Dockerfile do backend
+    image: my-quarkus-app
+    container_name: quarkus-app
+    depends_on:
+      - database
+    environment:
+      - QUARKUS_PROFILE=prod
+      - QUARKUS_DATASOURCE_USERNAME=cdit
+      - QUARKUS_DATASOURCE_PASSWORD=abcd1234
+      - QUARKUS_DATASOURCE_URL=jdbc:oracle:thin:@database:1521:xe
+    ports:
+      - "8080:8080"
+    networks:
+      - quarkus-network
+
+  database:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-xe
+    environment:
+      - ORACLE_PASSWORD=abcd1234
+      - ORACLE_DATABASE=xe
+    ports:
+      - "1521:1521"
+    networks:
+      - quarkus-network
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+
+networks:
+  quarkus-network:
+    driver: bridge
+
+volumes:
+  oracle-data:

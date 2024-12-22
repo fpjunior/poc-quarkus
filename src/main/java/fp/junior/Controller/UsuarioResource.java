@@ -1,7 +1,9 @@
 package fp.junior.Controller;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -12,8 +14,7 @@ import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-
+import fp.junior.DTO.UsuarioDTO;
 import fp.junior.Entity.Usuario;
 import fp.junior.Repository.UsuarioRepository;
 import fp.junior.Service.UsuarioService;
@@ -47,5 +48,16 @@ public class UsuarioResource {
                            .build();
         }
         return Response.ok(usuario).build();
+    }
+
+    @POST
+    public Response criarUsuario(UsuarioDTO usuarioDTO) {
+        // Chama o serviço para criar o novo usuário
+        Usuario usuarioCriado = usuarioService.criarUsuario(usuarioDTO);
+
+        // Retorna o usuário criado com um status HTTP 201 (Created)
+        return Response.status(Response.Status.CREATED)
+                .entity(usuarioCriado)
+                .build();
     }
 }

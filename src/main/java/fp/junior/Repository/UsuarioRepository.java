@@ -18,4 +18,10 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
     public Usuario findByName(String name) {
         return find("nome", name).firstResult();
     }
+
+     // Método para persistir um novo usuário
+     public Usuario save(Usuario usuario) {
+        persist(usuario); // Persiste o usuário no banco
+        return usuario;
+    }
 }
