@@ -30,6 +30,8 @@ services:
       - quarkus-network
     volumes:
       - oracle-data:/opt/oracle/oradata
+      - ./src/main/resources/db/migration/grant_permissions.sql:/docker-entrypoint-initdb.d/grant_permissions.sql:ro
+    entrypoint: "/bin/bash -c 'while ! nc -z localhost 1521; do sleep 1; done; sqlplus -S / as sysdba @/docker-entrypoint-initdb.d/grant_permissions.sql; /opt/oracle/setup.sh'"
 
 networks:
   quarkus-network:

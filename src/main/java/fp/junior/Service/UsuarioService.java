@@ -8,6 +8,7 @@ import fp.junior.Repository.UsuarioRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
@@ -16,7 +17,7 @@ public class UsuarioService {
     @Inject
     UsuarioRepository usuarioRepository;
 
-    @Inject
+    @Inject // Alternativa ao @PersistenceContext no Quarkus
     EntityManager em;
 
     public Usuario buscarPorNome(String nome) {
@@ -56,6 +57,17 @@ public class UsuarioService {
         
         // Salvar no banco de dados
         return usuarioRepository.save(usuario);
+    }
+
+     public String gerarLoginUsuario(String email) {
+        var query = em.createStoredProcedureQuery("cdit.criar_login_usuario");
+        query.registerStoredProcedureParameter("email", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("result", String.class, ParameterMode.OUT);
+
+        query.setParameter("email", email);
+        query.execute();
+
+        return (String) query.getOutputParameterValue("result");
     }
 
 }
