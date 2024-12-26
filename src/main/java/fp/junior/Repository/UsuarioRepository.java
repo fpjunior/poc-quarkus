@@ -4,29 +4,22 @@ import fp.junior.Entity.Usuario;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 @ApplicationScoped
 public class UsuarioRepository implements PanacheRepository<Usuario> {
 
-    private EntityManager em;
-
-    // Método para encontrar todos os usuários
-    public List<Usuario> findAllUsuarios() {
+    public List<Usuario> findAllUsers() {
         return findAll().list();
     }
 
-    // Método para encontrar um usuário pelo nome
     public Usuario findByName(String name) {
         return find("nome", name).firstResult();
     }
 
-     // Método para persistir um novo usuário
      public Usuario save(Usuario usuario) {
-        persist(usuario); // Persiste o usuário no banco
+        persist(usuario); 
         return usuario;
     }
 }

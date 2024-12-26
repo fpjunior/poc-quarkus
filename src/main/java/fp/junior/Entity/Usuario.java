@@ -12,10 +12,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data // Gera getters, setters, equals, hashCode e toString
+@Data 
 @Table(name = "usuario") 
-@AllArgsConstructor // Gera um construtor com todos os argumentos
-@NoArgsConstructor // Gera um construtor sem argumentos
+@AllArgsConstructor 
+@NoArgsConstructor 
 @Builder
 public class Usuario extends PanacheEntityBase {
     
