@@ -28,15 +28,19 @@ public class UsuarioService {
         }
         return null;
     }
+    public UsuarioService(UsuarioRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public List<UsuarioDTO> findAllUsers() {
-        List<Usuario> usuarios = userRepository.findAllUsers();
-        
-        // Mapeia a lista de entidades Usuario para UsuarioDTO
-        return usuarios.stream()
-                       .map(usuario -> new UsuarioDTO(usuario))
-                       .toList(); // Retorna a lista de DTOs
+        // Converte os usuários em DTOs
+        return userRepository.findAll()
+                .list()
+                .stream()
+                .map(UsuarioDTO::new) // Usa o construtor do DTO para conversão
+                .toList();
     }
+
     @Transactional
     public Usuario createUser(UsuarioDTO usuarioDTO) {
         // Validação básica

@@ -19,6 +19,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Usuario extends PanacheEntityBase {
     
+    public Usuario(long l, String string) {
+        //TODO Auto-generated constructor stub
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
