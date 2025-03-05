@@ -92,4 +92,5 @@ public class UsuarioResource {
         String email = Json.createReader(new StringReader(emailJson)).readObject().getString("email");
         return userService.generateUserLogin(email);
     }
+    
 }
